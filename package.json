@@ -1,6 +1,6 @@
 {
   "name": "javaprompt",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "The javaprompt package which includes several dynamic input functions created by upsided.",
   "main": "dist/index.js",
   "scripts": {
