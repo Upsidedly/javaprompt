@@ -24,6 +24,13 @@ pnpm add javaprompt
 - Added `float` type to `input` command.
     -Input has to be a floating-point number.
 
+### 1.0.3
+- Added `array` type to `input` command.
+    - values separated by comma
+
+- Added `set` type to `input` command.
+    - key: value pairs separated by comma
+
 ## Functions
 
 ### `input()`

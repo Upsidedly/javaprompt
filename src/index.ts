@@ -2,12 +2,14 @@ import { rl } from "./rl.js"
 import { promisify } from 'util';
 import chalk from 'chalk';
 
-type StringTypes = 'string' | 'boolean' | 'integer' | 'float' | 'array' | 'number'
-type InputTypes = string | boolean | number | any[]
+type StringTypes = 'string' | 'boolean' | 'integer' | 'float' | 'array' | 'number' | 'set'
+type InputTypes = string | boolean | number | any[] | Record<string | number | symbol, any>
 type InputOptions = {
     /**
      * Input return type, which includes:  
-     * `string` (1.0.0), `number` (1.0.0), `integer` (1.0.0), `boolean` (1.0.1), `float` (1.0.2)
+     * `string` (1.0.0), `number` (1.0.0), `integer` (1.0.0),
+     * `boolean` (1.0.1), `float` (1.0.2),  
+     * `array` (1.0.3), `set` (1.0.3)
     */
     type: StringTypes
 }
@@ -19,6 +21,7 @@ type InputOptions = {
  * @example ```js
  * import { input } from 'javaprompt';
  * 
+ * // Example is number
  * const response = await input('Give a number! ', { type: number }); 
  * ```
  * Console:
@@ -30,7 +33,7 @@ type InputOptions = {
  * @since 1.0.0
  * @returns {Promise<InputTypes>} One of the types in StringTypes. Some have been yet to be implemented
  */
-export async function input(message: string, options?: InputOptions): Promise<InputTypes> {
+export async function input(message: string, options?: InputOptions): Promise<InputTypes | undefined> {
     // Resumes stream
     rl.resume()
 
@@ -142,9 +145,51 @@ export async function input(message: string, options?: InputOptions): Promise<In
                 }
             }
         }
-    }
+    } else if (options.type === 'array') {
 
-    return '' // Placeholder until all types have been accounted for.
+        try {
+            // Parses array
+            const parsedArray = JSON.parse(`[${response}]`)
+            return parsedArray
+        } catch { // Cannot parse array
+
+            // Keeps prompting until given parseable array
+            while (true) {
+                try {
+                    process.stdout.write(`${chalk.green('?')} ${message}`)
+                    rl.resume()
+                    const res = await question(message)
+                    rl.pause()
+                    const pArray = JSON.parse(`[${res}]`)
+                    return pArray
+                } catch { // Still not parseable
+                    console.log(`${chalk.green('!')} Invalid input. please provide an array. (list of elements, separated by a comma )`)
+                }
+            }
+        }
+    } else if (options.type === 'set') {
+
+        try {
+            // Parses array
+            const parsedArray = JSON.parse(`{${response}}`)
+            return parsedArray
+        } catch { // Cannot parse array
+
+            // Keeps prompting until given parseable array
+            while (true) {
+                try {
+                    process.stdout.write(`${chalk.green('?')} ${message}`)
+                    rl.resume()
+                    const res = await question(message)
+                    rl.pause()
+                    const pArray = JSON.parse(`{${res}}`)
+                    return pArray
+                } catch { // Still not parseable
+                    console.log(`${chalk.green('!')} Invalid input. please provide a set (list of key: value pairs, separated by comma.).`)
+                }
+            }
+        }
+    }
 }
 
 export default { input }
