@@ -15,6 +15,9 @@ pnpm add javaprompt
 - Added `input()` command.
     - Supports return types of `string`, `number`, and `integer`, any other type selected will show the prompt but return an empty string
 - Simple `rl.ts` file which has the readline instance and configuration.
+### 1.0.1
+- Added `boolean` type to command.
+    - Input has to be `t`, `f`, `true` or `false`
 
 ## Functions
 

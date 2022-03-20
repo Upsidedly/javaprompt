@@ -6,7 +6,7 @@ type StringTypes = 'string' | 'boolean' | 'integer' | 'float' | 'array' | 'numbe
 type InputTypes = string | boolean | number | any[]
 type InputOptions = {
     /**
-     * Input return type, which includes `string` (1.0.0), `number` (1.0.0), `integer` (1.0.0)
+     * Input return type, which includes `string` (1.0.0), `number` (1.0.0), `integer` (1.0.0), `boolean` (1.0.1)
     */
     type: StringTypes
 }
@@ -87,6 +87,30 @@ export async function input(message: string, options?: InputOptions): Promise<In
 
                 // If it is finally a number
                 if (!/[^1-9.]/.test(res)) return Number.parseFloat(res)
+            }
+        }
+    } else if (options.type === 'boolean') {
+        if (['t', 'f', 'true', 'false'].includes(response.toLowerCase())) {
+            if (['t', 'true'].includes(response.toLowerCase())) {
+                return true
+            } else {
+                return false
+            }
+        } else {
+            while (true) {
+                console.log(`${chalk.green('!')} Invalid input. please provide a boolean. [t, f, true, false]`)
+                process.stdout.write(`${chalk.green('?')} ${message}`)
+                rl.resume()
+                const res = await question(message)
+                rl.pause()
+
+                if (['t', 'f', 'true', 'false'].includes(res.toLowerCase())) {
+                    if (['t', 'true'].includes(res.toLowerCase())) {
+                        return true
+                    } else {
+                        return false
+                    }
+                }
             }
         }
     }
