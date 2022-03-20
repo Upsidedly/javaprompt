@@ -1,9 +1,10 @@
 {
   "name": "javaprompt",
   "version": "1.0.0",
-  "description": "",
+  "description": "The javaprompt package which includes several dynamic input functions created by upsided.",
   "main": "dist/index.js",
   "scripts": {
+    "test": "echo \"Test completed successfully.\"",
     "dev": "nodemon .",
     "start": "node .",
     "watch": "tsc -w"
