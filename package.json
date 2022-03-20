@@ -1,0 +1,19 @@
+{
+  "name": "javaprompt",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "nodemon .",
+    "start": "node .",
+    "watch": "tsc -w"
+  },
+  "keywords": ["upsided"],
+  "author": "upsided",
+  "license": "GNU Public License v3",
+  "dependencies": {
+    "@types/node": "^17.0.21",
+    "chalk": "^5.0.1"
+  },
+  "type": "module"
+}
