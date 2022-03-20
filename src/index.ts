@@ -6,7 +6,8 @@ type StringTypes = 'string' | 'boolean' | 'integer' | 'float' | 'array' | 'numbe
 type InputTypes = string | boolean | number | any[]
 type InputOptions = {
     /**
-     * Input return type, which includes `string` (1.0.0), `number` (1.0.0), `integer` (1.0.0), `boolean` (1.0.1)
+     * Input return type, which includes:  
+     * `string` (1.0.0), `number` (1.0.0), `integer` (1.0.0), `boolean` (1.0.1), `float` (1.0.2)
     */
     type: StringTypes
 }
@@ -90,13 +91,19 @@ export async function input(message: string, options?: InputOptions): Promise<In
             }
         }
     } else if (options.type === 'boolean') {
+
+        // If response is the boolean words/characters
         if (['t', 'f', 'true', 'false'].includes(response.toLowerCase())) {
+
+            // True?
             if (['t', 'true'].includes(response.toLowerCase())) {
                 return true
             } else {
                 return false
             }
         } else {
+
+            // Keeps prompting until it gives on of the boolean words/characters
             while (true) {
                 console.log(`${chalk.green('!')} Invalid input. please provide a boolean. [t, f, true, false]`)
                 process.stdout.write(`${chalk.green('?')} ${message}`)
@@ -104,12 +111,34 @@ export async function input(message: string, options?: InputOptions): Promise<In
                 const res = await question(message)
                 rl.pause()
 
+                // Is one of the words/characters
                 if (['t', 'f', 'true', 'false'].includes(res.toLowerCase())) {
                     if (['t', 'true'].includes(res.toLowerCase())) {
                         return true
                     } else {
                         return false
                     }
+                }
+            }
+        }
+    } else if (options.type === 'float') {
+
+        // Is a number and is not an integer
+        if (!/[^1-9.]/.test(response) && !Number.isInteger(Number.parseFloat(response))) {
+            return Number.parseFloat(response)
+        } else {
+
+            // Keeps prompting until a float is given
+            while (true) {
+                console.log(`${chalk.green('!')} Invalid input. please provide a float. (decimal number)`)
+                process.stdout.write(`${chalk.green('?')} ${message}`)
+                rl.resume()
+                const res = await question(message)
+                rl.pause()
+
+                // If it is finally a float
+                if (!/[^1-9.]/.test(res) && !Number.isInteger(parseFloat(res))) {
+                    return Number.parseFloat(res)
                 }
             }
         }
