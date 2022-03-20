@@ -8,7 +8,6 @@ input() 1.0.0 (Incomplete)
 import { rl } from "./rl.js"
 import { promisify } from 'util';
 import chalk from 'chalk';
-import { isposint } from "./functions/posint.js";
 
 type StringTypes = 'string' | 'boolean' | 'integer' | 'float' | 'array' | 'number'
 type InputTypes = string | boolean | number | any[]
