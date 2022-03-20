@@ -15,11 +15,12 @@
   "author": "upsided",
   "license": "GNU General Public License v3",
   "dependencies": {
-    "@types/node": "^17.0.21",
     "chalk": "^5.0.1"
   },
   "type": "module",
-  
   "repository": "https://github.com/Upsidedly/javaprompt",
-  "homepage": "https://github.com/Upsidedly/javaprompt#readme"
+  "homepage": "https://github.com/Upsidedly/javaprompt#readme",
+  "devDependencies": {
+    "@types/node": "^17.0.21"
+  }
 }
